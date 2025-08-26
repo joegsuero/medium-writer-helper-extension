@@ -50,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const headingText = document.createElement("span");
       headingText.textContent = heading.text;
 
-      // Botón "Go" para navegar
       const goButton = document.createElement("button");
       goButton.textContent = "Go";
       goButton.addEventListener("click", () => {
@@ -64,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           args: [heading.name],
         });
-        window.close(); // Cierra el popup después de la acción
       });
 
       const copyButton = document.createElement("button");
