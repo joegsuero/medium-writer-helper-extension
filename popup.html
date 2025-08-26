@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Medium Headings</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        min-width: 350px;
+        padding: 10px;
+      }
+      h1 {
+        font-size: 1.2em;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      span {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      button {
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-left: 3px;
+      }
+      button:hover {
+        background-color: #eee;
+      }
+      .copied {
+        background-color: #28a745;
+        color: white;
+        border-color: #28a745;
+      }
+      .error-message {
+        color: #d9534f;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Medium Article Headings</h1>
+    <ul id="headings-list">
+      <li>Loading...</li>
+    </ul>
+    <script src="popup.js"></script>
+  </body>
+</html>
