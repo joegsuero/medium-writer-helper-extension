@@ -16,8 +16,6 @@ The **Medium Headings Linker** is a lightweight browser extension that automates
 
 This extension is built to be simple, fast, and secure. It runs only when you click it and only on Medium's editor pages, ensuring it doesn't interfere with your browsing.
 
----
-
 ![A view of the Medium extension in action](example/example.png)
 
 ---
