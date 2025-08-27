@@ -18,6 +18,10 @@ This extension is built to be simple, fast, and secure. It runs only when you cl
 
 ---
 
+![A view of the Medium extension in action](example/example.png)
+
+---
+
 ### **How It's Built**
 
 The extension is a simple **popup** that uses the standard WebExtension API. It leverages Chrome's `scripting` API to inject and run a small piece of code directly into the active Medium tab. This script finds all `h1` through `h4` elements and extracts their unique `name` attribute. It then sends this data back to the extension's popup, where the user interface is rendered. The "Go" and "Copy Link" functionalities are also handled by injecting scripts to either scroll the page or write to the user's clipboard, respectively.
