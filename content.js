@@ -18,13 +18,32 @@ function applyDarkMode(enabled) {
         h1, h2, h3, h4, h5, h6, p, blockquote, li, span, a {
           color: #e5e5e5 !important;
         }
-        /* Metabar / Toolbar & Sticky Navs */
-        .metabar, .js-metabarSpacer, .metabar-inner, .dw.n.dx.dy.dz.ea, .o.q, .kv.y, .kw.bw.y.br {
+        /* Metabar / Toolbar & Sticky Navs & AppBars */
+        .metabar, .js-metabarSpacer, .metabar-inner, 
+        .dw.n.dx.dy.dz.ea, .o.q, .kv.y, .kw.bw.y.br,
+        .y.z.ab.ac.c, .bc.p.af.o.bd.be, .ae.p.af.ag.ah.ai.aj.ak.al.j.e.am.an {
           background-color: #121212 !important;
           border-color: #333 !important;
           opacity: 1 !important;
         }
-        .svgIcon-use, .svgIcon, .metabar-block svg {
+        
+        /* Force Medium Logo to White */
+        svg path[fill="#242424"], svg path[d*="M29.57"], .siteNav-logo svg path {
+          fill: #ffffff !important;
+        }
+        
+        /* Status Labels (Draft, Saved, etc.) */
+        .js-metabarMessage, .u-textColorDarker, .u-textColorNormal, 
+        .js-metabarMessage span, .u-textColorDarkest {
+          color: #bbbbbb !important;
+        }
+        
+        /* Side Labels (Title, Subtitle, Kicker) */
+        .js-titleLabel, .js-subtitleLabel, .js-kickerLabel, .u-textColorNormal {
+          color: #eeeeee !important;
+        }
+
+        .svgIcon-use, .svgIcon, .metabar-block svg, svg[width="24"][height="24"] {
           fill: #e5e5e5 !important;
           color: #e5e5e5 !important;
         }
