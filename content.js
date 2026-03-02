@@ -1,6 +1,26 @@
 const styleId = "medium-dark-mode-style";
 
+function isMediumPage() {
+  // Check common Medium meta tags
+  const metaMedium = document.querySelector('meta[property="al:ios:app_name"][content="Medium"]') ||
+                     document.querySelector('meta[name="twitter:app:name:iphone"][content="Medium"]') ||
+                     document.querySelector('meta[property="og:site_name"][content="Medium"]') ||
+                     document.querySelector('meta[name="twitter:site"][content="@Medium"]');
+  
+  if (metaMedium) return true;
+
+  // Check for specific Medium UI elements as fallback
+  const hasMetabar = document.querySelector('.metabar') || 
+                      document.querySelector('.js-metabar') ||
+                      document.querySelector('[data-testid="headerMediumLogo"]') ||
+                      document.querySelector('.site-main');
+  
+  return !!hasMetabar;
+}
+
 function applyDarkMode(enabled) {
+  if (enabled && !isMediumPage()) return;
+  
   let style = document.getElementById(styleId);
   if (enabled) {
     if (!style) {
@@ -108,5 +128,11 @@ chrome.storage.local.get("darkMode", (data) => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "toggleDarkMode") {
     applyDarkMode(message.enabled);
+  } else if (message.action === "checkMedium") {
+    sendResponse({ 
+      isMedium: isMediumPage(),
+      isEditor: !!(document.querySelector('.editable') || document.querySelector('[contenteditable="true"]') || window.location.href.includes('edit'))
+    });
   }
+  return true; // Keep channel open for async response
 });

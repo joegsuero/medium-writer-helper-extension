@@ -27,13 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function applyDarkModeToMedium(isEnabled) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const activeTab = tabs[0];
-      if (activeTab && activeTab.url && activeTab.url.includes("medium.com")) {
+      if (activeTab && activeTab.id) {
         // Send message to content script
         chrome.tabs.sendMessage(activeTab.id, {
           action: "toggleDarkMode",
           enabled: isEnabled,
         }).catch(err => {
-          // Content script might not be loaded yet or page not accessible
           console.log("Could not send message to content script:", err);
         });
       }
@@ -57,25 +56,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const activeTab = tabs[0];
-    const pageUrl = activeTab.url;
+    if (!activeTab || !activeTab.id) return;
 
-    if (pageUrl.includes("edit")) {
-      chrome.scripting.executeScript(
-        {
-          target: { tabId: activeTab.id },
-          function: getHeadingsLogic,
-        },
-        (results) => {
-          if (results && results[0] && results[0].result) {
-            displayHeadings(results[0].result, activeTab.id);
-          } else {
-            displayError("No headings were found.");
+    // First check if it's a Medium page via content script
+    chrome.tabs.sendMessage(activeTab.id, { action: "checkMedium" }, (response) => {
+      if (chrome.runtime.lastError || !response || !response.isMedium) {
+        displayError("This doesn't seem to be a Medium page.");
+        return;
+      }
+
+      // If it is Medium, then check if it's the editor for the Table of Contents
+      if (response.isEditor) {
+        chrome.scripting.executeScript(
+          {
+            target: { tabId: activeTab.id },
+            function: getHeadingsLogic,
+          },
+          (results) => {
+            if (results && results[0] && results[0].result) {
+              displayHeadings(results[0].result, activeTab.id);
+            } else {
+              displayError("No headings were found.");
+            }
           }
-        }
-      );
-    } else {
-      displayError("The table of contents only works on Medium's post editing page.");
-    }
+        );
+      } else {
+        displayError("The table of contents only works on Medium's post editing page.");
+      }
+    });
   });
 
   function displayHeadings(headings, tabId) {
