@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       );
     } else {
-      displayError("This extension only works on Medium's post editing page.");
+      displayError("The table of contents only works on Medium's post editing page.");
     }
   });
 
