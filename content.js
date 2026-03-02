@@ -95,12 +95,30 @@ function applyDarkMode(enabled) {
         .hljs-number, .hljs-literal { color: #b5cea8 !important; }
         .hljs-title, .hljs-section { color: #dcdcaa !important; }
         
-        /* Editor UI Panels */
-        .highlightMenu, .inlineTooltip, .drawer, .popover {
-          background-color: #252525 !important;
+        /* Editor UI Panels & Floating Menus (Overflow, Popper, etc.) */
+        .highlightMenu, .inlineTooltip, .drawer, .popover, 
+        .fl.bq, .ho.bq, .ho.aid.eu, .aim.agg.ac.abn.cv,
+        [id*="OverflowMenu"], ul.aim, li.ain, .bg.b.bh.ee.ain {
+          background-color: #1e1e1e !important;
           border: 1px solid #444 !important;
           box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+          color: #eeeeee !important;
         }
+
+        .ah.ai.aj.fb.al.am.an.ao.ap.aq.ar.as.at.au.av, .ah.ai.aj.fb.al.am {
+            color: #eeeeee !important;
+            background: transparent !important;
+        }
+
+        .ah.ai.aj.fb.al.am.an.ao.ap.aq.ar.as.at.au.av:hover {
+            background-color: #2a2a2a !important;
+        }
+
+        /* Menu Icons */
+        svg.ax path, .ax path, .ax circle, .ax rect {
+          fill: #e5e5e5 !important;
+        }
+        
         .button--chromeless, .buttonSet button {
           color: #e5e5e5 !important;
         }
