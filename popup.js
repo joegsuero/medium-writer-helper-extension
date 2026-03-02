@@ -1,4 +1,78 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const darkModeToggle = document.getElementById("dark-mode-toggle");
+
+  // Load dark mode state
+  chrome.storage.local.get("darkMode", (data) => {
+    if (data.darkMode) {
+      darkModeToggle.checked = true;
+      document.body.classList.add("dark-mode");
+      // Re-apply to Medium if already enable
+      applyDarkModeToMedium(true);
+    }
+  });
+
+  darkModeToggle.addEventListener("change", () => {
+    const isEnabled = darkModeToggle.checked;
+    chrome.storage.local.set({ darkMode: isEnabled });
+
+    if (isEnabled) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+
+    applyDarkModeToMedium(isEnabled);
+  });
+
+  function applyDarkModeToMedium(isEnabled) {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const activeTab = tabs[0];
+      if (activeTab.url.includes("medium.com")) {
+        chrome.scripting.executeScript({
+          target: { tabId: activeTab.id },
+          function: (enabled) => {
+            const styleId = "medium-dark-mode-style";
+            let style = document.getElementById(styleId);
+
+            if (enabled) {
+              if (!style) {
+                style = document.createElement("style");
+                style.id = styleId;
+                // Generic dark mode CSS for Medium
+                style.innerHTML = `
+                  html, body, .screenContent, main, article {
+                    background-color: #121212 !important;
+                    color: #ffffff !important;
+                  }
+                  div, section, header, footer {
+                    background-color: transparent !important;
+                    color: inherit !important;
+                  }
+                  h1, h2, h3, h4, h5, h6, p, blockquote, li, span, a {
+                    color: #e5e5e5 !important;
+                  }
+                  /* Fix for specific Medium editor elements */
+                  .editable, [contenteditable="true"] {
+                    background-color: #121212 !important;
+                    color: #ffffff !important;
+                  }
+                  /* Invert images slightly or keep them clear */
+                  img { opacity: 0.8; }
+                `;
+                document.head.appendChild(style);
+              }
+            } else {
+              if (style) {
+                style.remove();
+              }
+            }
+          },
+          args: [isEnabled],
+        });
+      }
+    });
+  }
+
   const getHeadingsLogic = () => {
     const headings = [];
     const headingElements = document.querySelectorAll("h1, h2, h3, h4");

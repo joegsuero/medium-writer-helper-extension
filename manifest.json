@@ -3,7 +3,7 @@
   "name": "Medium Writer Helper",
   "version": "1.0",
   "description": "Create a table of contents for easily navigate and copy heading names in Medium's editor.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
