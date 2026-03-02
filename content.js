@@ -18,10 +18,11 @@ function applyDarkMode(enabled) {
         h1, h2, h3, h4, h5, h6, p, blockquote, li, span, a {
           color: #e5e5e5 !important;
         }
-        /* Metabar / Toolbar */
-        .metabar, .js-metabarSpacer, .metabar-inner {
-          background-color: #1a1a1a !important;
+        /* Metabar / Toolbar & Sticky Navs */
+        .metabar, .js-metabarSpacer, .metabar-inner, .dw.n.dx.dy.dz.ea, .o.q, .kv.y, .kw.bw.y.br {
+          background-color: #121212 !important;
           border-color: #333 !important;
+          opacity: 1 !important;
         }
         .svgIcon-use, .svgIcon, .metabar-block svg {
           fill: #e5e5e5 !important;
