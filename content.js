@@ -317,6 +317,16 @@ function applyDarkMode(enabled) {
           color: #eeeeee !important;
           fill: #eeeeee !important;
         }
+
+        /* Post Preview Article Titles - Remove Background/Extra Highlight */
+        article[data-testid="post-preview"] h2,
+        article[data-testid="post-preview"] .ha.cn,
+        .as.hc.ju.jv.jw.jx.jy.jz.ka.kb.kc.kd.ke.kf.kg.kh.ki.kj.kk.kl.km.kn.ko.kp.kq.kr.ks.kt.ku.kv.kw.kx.ky.kz.la.lb.lc.ld.le.lf.lg.lh.li.lj.lk.ll.lm {
+          background: black !important;
+          background-color: transparent !important;
+          box-shadow: none !important;
+          border: none !important;
+        }
       `;
       document.documentElement.appendChild(style);
     }
