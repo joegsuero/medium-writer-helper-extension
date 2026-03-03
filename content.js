@@ -98,10 +98,9 @@ function applyDarkMode(enabled) {
         .hljs-title, .hljs-section { color: #dcdcaa !important; }
         
         /* Editor UI Panels & Floating Menus (Overflow, Popper, etc.) */
-        .highlightMenu, .inlineTooltip, .drawer, .popover, 
+        .highlightMenu, .drawer, .popover, 
         .fl.bq, .ho.bq, .ho.aid.eu, .aim.agg.ac.abn.cv,
-        [id*="OverflowMenu"], ul.aim, li.ain, .bg.b.bh.ee.ain,
-        .inlineTooltip-menu {
+        [id*="OverflowMenu"], ul.aim, li.ain, .bg.b.bh.ee.ain {
           background-color: #1e1e1e !important;
           border: 1px solid #444 !important;
           box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
@@ -116,9 +115,13 @@ function applyDarkMode(enabled) {
           stroke: #ffffff !important;
         }
 
-        /* The main '+' toggle icon */
+        /* The main '+' toggle icon and circle */
+        .inlineTooltip button.js-inlineTooltipControl {
+          border: 1px solid #ffffff !important;
+          background-color: rgba(0,0,0,0.5) !important;
+        }
         .inlineTooltip button.js-inlineTooltipControl svg path {
-          fill: #e5e5e5 !important;
+          fill: #ffffff !important;
         }
 
         .ah.ai.aj.fb.al.am.an.ao.ap.aq.ar.as.at.au.av, .ah.ai.aj.fb.al.am {
