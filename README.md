@@ -42,7 +42,7 @@ Read the full article on Medium describing the motivation and development proces
 
 ### **How to Install** 🛠️
 
-For now, the extension is available in **Developer Mode**. Follow these steps to install it in less than a minute:
+For now, the extension is available in **Developer Mode** for Chrome (Firefox support is planned for the future). Follow these steps to install it in less than a minute:
 
 1.  **Download the Code**: Clone this repository or download it as a ZIP and extract it.
 2.  **Open Extensions Page**: Go to `chrome://extensions` in your browser.
