@@ -144,6 +144,17 @@ function applyDarkMode(enabled) {
         
         /* Invert images slightly or keep them clear */
         img { opacity: 0.8; }
+
+        /* Image Captions Fix */
+        figcaption.imageCaption {
+          color: #ffffff !important;
+        }
+
+        /* Link Underlines Fix */
+        a {
+          text-decoration-color: #ffffff !important;
+          -webkit-text-decoration-color: #ffffff !important;
+        }
       `;
       document.documentElement.appendChild(style);
     }
