@@ -299,6 +299,24 @@ function applyDarkMode(enabled) {
         .eb.dy.eu.et, .eb.dy.eu.et path {
           stroke: #ffffff !important;
         }
+
+        /* Story Actions Bar (Claps, Comments, Share) */
+        .ac.cw.ko.kp.kq.kr.ks.kt.ku.kv.kw.kx.ky.kz.la.lb.lc.ld,
+        .ac.cw, [data-testid="storyActionsBar"] {
+          background-color: transparent !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          border-top: 1px solid #444 !important;
+          border-bottom: 1px solid #444 !important;
+          border-left: none !important;
+          border-right: none !important;
+        }
+
+        /* Ensure claps and responses icons/text are visible */
+        .pw-multi-vote-count button, .mv path, .ax path, .mv {
+          color: #eeeeee !important;
+          fill: #eeeeee !important;
+        }
       `;
       document.documentElement.appendChild(style);
     }
