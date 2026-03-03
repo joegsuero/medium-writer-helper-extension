@@ -1,136 +1,165 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Medium Headings</title>
-    <style>
-      :root {
-        --bg-color: #ffffff;
-        --text-color: #000000;
-        --border-color: #eee;
-        --button-bg: #f9f9f9;
-        --button-border: #ddd;
-        --button-hover: #eee;
-        --error-color: #d9534f;
-      }
 
-      body.dark-mode {
-        --bg-color: #1a1a1a;
-        --text-color: #e5e5e5;
-        --border-color: #333;
-        --button-bg: #2d2d2d;
-        --button-border: #444;
-        --button-hover: #3d3d3d;
-      }
+<head>
+  <title>Medium Headings</title>
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --border-color: #eee;
+      --button-bg: #f9f9f9;
+      --button-border: #ddd;
+      --button-hover: #eee;
+      --error-color: #d9534f;
+    }
 
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          sans-serif;
-        min-width: 350px;
-        padding: 10px;
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        transition: background-color 0.3s, color 0.3s;
-      }
-      .header-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--border-color);
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-      }
-      h1 {
-        font-size: 1.2em;
-        margin: 0;
-      }
-      .toggle-container {
-        display: flex;
-        align-items: center;
-        font-size: 0.85em;
-        gap: 8px;
-        background: var(--button-bg);
-        padding: 4px 8px;
-        border-radius: 20px;
-        border: 1px solid var(--button-border);
-      }
-      .toggle-container input {
-        cursor: pointer;
-      }
-      ul {
-        list-style-type: none;
-        padding: 0;
-      }
-      li {
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 5px;
-        border-bottom: 1px solid var(--border-color);
-      }
-      li:last-child {
-        border-bottom: none;
-      }
-      span {
-        max-width: 200px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      button {
-        padding: 5px 10px;
-        border: 1px solid var(--button-border);
-        background-color: var(--button-bg);
-        color: var(--text-color);
-        cursor: pointer;
-        border-radius: 4px;
-        margin-left: 3px;
-        transition: background-color 0.2s;
-      }
-      button:hover {
-        background-color: var(--button-hover);
-      }
-      .copied {
-        background-color: #28a745;
-        color: white;
-        border-color: #28a745;
-      }
-      .error-message {
-        color: var(--error-color);
-      }
-      .footer {
-        margin-top: 15px;
-        padding-top: 10px;
-        border-top: 1px solid var(--border-color);
-        text-align: center;
-      }
-      .footer a {
-        font-size: 11px;
-        color: #666;
-        text-decoration: none;
-      }
-      .footer a:hover {
-        text-decoration: underline;
-      }
-      body.dark-mode .footer a {
-        color: #999;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="header-container">
-      <h1>Medium Writer Helper</h1>
-      <label class="toggle-container">
-        <span>Dark Mode</span>
-        <input type="checkbox" id="dark-mode-toggle" />
-      </label>
+    body.dark-mode {
+      --bg-color: #1a1a1a;
+      --text-color: #e5e5e5;
+      --border-color: #333;
+      --button-bg: #2d2d2d;
+      --button-border: #444;
+      --button-hover: #3d3d3d;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        sans-serif;
+      min-width: 350px;
+      padding: 10px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+    }
+
+    h1 {
+      font-size: 1.2em;
+      margin: 0;
+    }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      font-size: 0.85em;
+      gap: 8px;
+      background: var(--button-bg);
+      padding: 4px 8px;
+      border-radius: 20px;
+      border: 1px solid var(--button-border);
+    }
+
+    .toggle-container input {
+      cursor: pointer;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    span {
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    button {
+      padding: 5px 10px;
+      border: 1px solid var(--button-border);
+      background-color: var(--button-bg);
+      color: var(--text-color);
+      cursor: pointer;
+      border-radius: 4px;
+      margin-left: 3px;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: var(--button-hover);
+    }
+
+    .copied {
+      background-color: #28a745;
+      color: white;
+      border-color: #28a745;
+    }
+
+    .error-message {
+      color: var(--error-color);
+    }
+
+    .footer {
+      margin-top: 15px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .footer a {
+      color: #666;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer .dev-info {
+      color: #666;
+    }
+
+    body.dark-mode .footer a,
+    body.dark-mode .footer .dev-info {
+      color: #999;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header-container">
+    <h1>Medium Writer Helper</h1>
+    <label class="toggle-container">
+      <span>Dark Mode</span>
+      <input type="checkbox" id="dark-mode-toggle" />
+    </label>
+  </div>
+  <ul id="headings-list">
+    <li>Loading...</li>
+  </ul>
+  <div class="footer">
+    <a href="https://github.com/joegsuero/medium-writer-helper-extension/issues" target="_blank">Report issue or bug</a>
+    <div class="dev-info">
+      Developed by: <a href="https://github.com/joegsuero" target="_blank">@joegsuero</a>
     </div>
-    <ul id="headings-list">
-      <li>Loading...</li>
-    </ul>
-    <div class="footer">
-      <a href="https://github.com/joegsuero/medium-writer-helper-extension/issues" target="_blank">Report an issue or suggestion</a>
-    </div>
-    <script src="popup.js"></script>
-  </body>
+  </div>
+  <script src="popup.js"></script>
+</body>
+
 </html>
