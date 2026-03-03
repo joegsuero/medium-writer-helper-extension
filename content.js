@@ -195,6 +195,35 @@ function applyDarkMode(enabled) {
           border: 1px solid #444 !important;
           color: #eeeeee !important;
         }
+
+        /* Publication and Date Picker Buttons Refined */
+        button.eo.gm.jj, button.eo.gm.io, button.ea.hu.ec, button.dj.be.gb.bg, button.hu.ec.ed {
+          background-color: #2a2a2a !important;
+          color: #ffffff !important;
+          border: 1px solid #444 !important;
+        }
+
+        /* Specific Scheduling Buttons Styles */
+        button.hm.dz, button.hr.dz {
+          padding-inline: 10px !important;
+          border-radius: 25px !important;
+        }
+
+        /* Date Picker Icons */
+        .jr.ar.jn.io svg path, .jk.jl.jm svg path, .jr svg path, .ip.iq.ir svg path {
+          stroke: #ffffff !important;
+        }
+
+        /* Publication Panel Text & Labels */
+        .jq p, .jn.jo p, .jp.ar p, .o.cd.ch.cl.cp.ct.ht button, 
+        #date-field-schedule-a-time-to-publish {
+          color: #ffffff !important;
+        }
+
+        /* Ensure Date Picker Button has correct background */
+        .eq button[aria-haspopup="menu"] {
+          background-color: #2a2a2a !important;
+        }
       `;
       document.documentElement.appendChild(style);
     }
