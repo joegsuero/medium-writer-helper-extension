@@ -150,12 +150,50 @@ function applyDarkMode(enabled) {
           color: #ffffff !important;
         }
 
-        /* Link Underlines Fix (Robust) */
-        a, article a, p a, .markup--anchor {
+        /* Link Underlines Fix (Refined: Only in Editor) */
+        .editable a, [contenteditable="true"] a, .postArticle-content a, .markup--anchor {
           text-decoration: none !important;
           border-bottom: 1px solid #ffffff !important;
           box-shadow: none !important;
           background-image: none !important;
+        }
+
+        /* Ensure Nav/AppBar links don't have the underline */
+        .metabar a, .js-metabar a, nav a, header a {
+          border-bottom: none !important;
+          text-decoration: none !important;
+          box-shadow: none !important;
+        }
+
+        /* Tags Multi-Select Menu (Dropdown Fix) */
+        .ep.gm.if.ig, #tagMultiSelectMenu, .ih.gm, ul.im {
+          background-color: #1e1e1e !important;
+          border: 1px solid #444 !important;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+          opacity: 1 !important;
+        }
+
+        /* Tags List Items & Text */
+        #tagMultiSelectMenu button, #tagMultiSelectMenu span, #tagMultiSelectMenu p, .im.in.o.hv.db p {
+          color: #eeeeee !important;
+          background-color: transparent !important;
+        }
+
+        #tagMultiSelectMenu button:hover {
+          background-color: #2a2a2a !important;
+        }
+
+        /* Topic Input Field & Tags Elements Fix */
+        input[role="combobox"], .gq.fp.gr.gs.gt.gu.fq.gv, .io.ip.iq.go.o.p.ir.is p {
+          color: #ffffff !important;
+          background-color: transparent !important;
+        }
+
+        /* Selected Topics / Tags Chips */
+        .io.ip.iq.go.o.p.ir.is {
+          background-color: #2a2a2a !important;
+          border: 1px solid #444 !important;
+          color: #eeeeee !important;
         }
       `;
       document.documentElement.appendChild(style);
