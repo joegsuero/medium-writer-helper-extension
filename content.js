@@ -63,10 +63,12 @@ function applyDarkMode(enabled) {
           color: #eeeeee !important;
         }
 
-        .svgIcon-use, .svgIcon, .metabar-block svg, svg[width="24"][height="24"] {
+        /* Metabar Icons only */
+        .metabar .svgIcon-use, .metabar .svgIcon, .metabar-block svg {
           fill: #e5e5e5 !important;
           color: #e5e5e5 !important;
         }
+        
         /* Code Blocks (Pre) */
         pre, .graf--pre, .graf--preV2 {
           background-color: #1e1e1e !important;
@@ -98,11 +100,25 @@ function applyDarkMode(enabled) {
         /* Editor UI Panels & Floating Menus (Overflow, Popper, etc.) */
         .highlightMenu, .inlineTooltip, .drawer, .popover, 
         .fl.bq, .ho.bq, .ho.aid.eu, .aim.agg.ac.abn.cv,
-        [id*="OverflowMenu"], ul.aim, li.ain, .bg.b.bh.ee.ain {
+        [id*="OverflowMenu"], ul.aim, li.ain, .bg.b.bh.ee.ain,
+        .inlineTooltip-menu {
           background-color: #1e1e1e !important;
           border: 1px solid #444 !important;
           box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
           color: #eeeeee !important;
+        }
+
+        /* Inline Tooltip (+) Menu Icons Fix */
+        .inlineTooltip-menu svg path, 
+        .inlineTooltip-menu svg rect:not([rx="15.5"]), 
+        .inlineTooltip-menu svg circle {
+          fill: #ffffff !important;
+          stroke: #ffffff !important;
+        }
+
+        /* The main '+' toggle icon */
+        .inlineTooltip button.js-inlineTooltipControl svg path {
+          fill: #e5e5e5 !important;
         }
 
         .ah.ai.aj.fb.al.am.an.ao.ap.aq.ar.as.at.au.av, .ah.ai.aj.fb.al.am {
