@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Medium Writer Helper",
   "version": "1.0",
-  "description": "Create a table of contents for easily navigate and copy heading names in Medium's editor.",
+  "description": "Effortlessly create tables of contents and enable a premium dark mode across all Medium pages.",
   "permissions": [
     "activeTab",
     "scripting",

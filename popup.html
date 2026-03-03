@@ -98,6 +98,23 @@
       .error-message {
         color: var(--error-color);
       }
+      .footer {
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid var(--border-color);
+        text-align: center;
+      }
+      .footer a {
+        font-size: 11px;
+        color: #666;
+        text-decoration: none;
+      }
+      .footer a:hover {
+        text-decoration: underline;
+      }
+      body.dark-mode .footer a {
+        color: #999;
+      }
     </style>
   </head>
   <body>
@@ -111,6 +128,9 @@
     <ul id="headings-list">
       <li>Loading...</li>
     </ul>
+    <div class="footer">
+      <a href="https://github.com/joegsuero/medium-writer-helper-extension/issues" target="_blank">Report an issue or suggestion</a>
+    </div>
     <script src="popup.js"></script>
   </body>
 </html>
