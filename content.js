@@ -241,6 +241,64 @@ function applyDarkMode(enabled) {
         #date-picker button:not([disabled]):hover {
           background-color: #2a2a2a !important;
         }
+
+        /* User Profile Menu Dropdown (Refined) */
+        .df.rd.sa.rb.c.mo.sb, .hz.rd, .hz.rq.bw,
+        .df.kp.kq.kr.c.ks.kt, .ku.kp, .ku.kv.bw,
+        [data-popper-placement="bottom-end"] {
+          background-color: #1e1e1e !important;
+          border: 1px solid #444 !important;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+          opacity: 1 !important;
+        }
+
+        .hz.rq.bw p, .hz.rq.bw span, .hz.rq.bw div,
+        .ku.kv.bw p, .ku.kv.bw span, .ku.kv.bw div {
+          color: #eeeeee !important;
+        }
+
+        .hz.rq.bw a:hover, .hz.rq.bw button:hover,
+        .ku.kv.bw a:hover, .ku.kv.bw button:hover {
+          background-color: #2a2a2a !important;
+        }
+
+        /* Edit Profile Page / Modal */
+        .hh.lm.ln.lo, .ly.bq.lz, .mi.kz.mj {
+          background-color: #121212 !important;
+          color: #ffffff !important;
+        }
+
+        /* Edit Profile Text, Labels, and Inputs */
+        .bg.fx.nu.nv, .nz.bl, .bg.b.bh.ab.dy, .bg.b.dz.ab.dy,
+        .bg.b.bh.ab.bl, .bg.b.bh.ab.jj, .bg.b.bh.ab.ks,
+        .nw.m p, .kz.m p, .kz.ac.jh.es p, .bi.ac.jh label,
+        .as.b.ck.an, .as.b.go.gp {
+          color: #ffffff !important;
+        }
+
+        .ac.bi.cv.ke.bq.oa.ob.fb input,
+        .ac.bi.cv.ke.bq.oa.ob.fb textarea,
+        input.od.al.aj.an.oe.of,
+        textarea.od.al.aj.an.oe.of {
+          background-color: #1e1e1e !important;
+          color: #ffffff !important;
+          border-color: #444 !important;
+        }
+
+        /* Pronouns / Multi-select Pills */
+        .css-192hq3n-multiValue {
+          background-color: #333 !important;
+          color: #ffffff !important;
+        }
+
+        .css-1xdsud6 {
+          color: #ffffff !important;
+        }
+
+        /* Close/SVG Icons */
+        .eb.dy.eu.et, .eb.dy.eu.et path {
+          stroke: #ffffff !important;
+        }
       `;
       document.documentElement.appendChild(style);
     }
