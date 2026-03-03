@@ -224,6 +224,23 @@ function applyDarkMode(enabled) {
         .eq button[aria-haspopup="menu"] {
           background-color: #2a2a2a !important;
         }
+
+        /* Date Picker Popover Dropdown */
+        #date-picker, .jh.ji.ft, .ep.gm.je.jf.jg.gw {
+          background-color: #1e1e1e !important;
+          border: 1px solid #444 !important;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+          opacity: 1 !important;
+        }
+
+        /* Date Picker Dropdown Text and Elements */
+        #date-picker h2, #date-picker p, #date-picker span {
+          color: #eeeeee !important;
+        }
+
+        #date-picker button:not([disabled]):hover {
+          background-color: #2a2a2a !important;
+        }
       `;
       document.documentElement.appendChild(style);
     }
