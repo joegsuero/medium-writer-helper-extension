@@ -150,10 +150,12 @@ function applyDarkMode(enabled) {
           color: #ffffff !important;
         }
 
-        /* Link Underlines Fix */
-        a {
-          text-decoration-color: #ffffff !important;
-          -webkit-text-decoration-color: #ffffff !important;
+        /* Link Underlines Fix (Robust) */
+        a, article a, p a, .markup--anchor {
+          text-decoration: none !important;
+          border-bottom: 1px solid #ffffff !important;
+          box-shadow: none !important;
+          background-image: none !important;
         }
       `;
       document.documentElement.appendChild(style);
