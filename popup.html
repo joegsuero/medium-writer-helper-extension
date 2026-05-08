@@ -139,6 +139,105 @@
     body.dark-mode .footer .dev-info {
       color: #999;
     }
+
+    /* Stats Section Styles */
+    #stats-section {
+      display: none;
+    }
+
+    #stats-section.visible {
+      display: block;
+    }
+
+    /* Stories Section Styles */
+    #stories-section {
+      display: none;
+    }
+
+    #stories-section.visible {
+      display: block;
+    }
+
+    .stats-header {
+      font-size: 1.1em;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text-color);
+    }
+
+    .stats-description {
+      font-size: 0.85em;
+      color: #666;
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+
+    body.dark-mode .stats-description {
+      color: #999;
+    }
+
+    .download-btn {
+      background-color: #28a745 !important;
+      color: white !important;
+      border-color: #28a745 !important;
+      font-weight: 600;
+      padding: 10px 20px !important;
+      font-size: 0.95em;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .download-btn:hover {
+      background-color: #218838 !important;
+      border-color: #1e7e34 !important;
+    }
+
+    .download-btn:disabled {
+      background-color: #6c757d !important;
+      border-color: #6c757d !important;
+      cursor: not-allowed;
+    }
+
+    .stats-status {
+      font-size: 0.85em;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    .stats-status.success {
+      color: #28a745;
+    }
+
+    .stats-status.error {
+      color: #dc3545;
+    }
+
+    body.dark-mode .stats-status.success {
+      color: #5cb85c;
+    }
+
+    body.dark-mode .stats-status.error {
+      color: #d9534f;
+    }
+
+    .stats-info {
+      font-size: 0.8em;
+      color: #888;
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    body.dark-mode .stats-info {
+      color: #aaa;
+    }
+
+    #headings-section {
+      display: block;
+    }
+
+    #headings-section.hidden {
+      display: none;
+    }
   </style>
 </head>
 
@@ -150,9 +249,40 @@
       <input type="checkbox" id="dark-mode-toggle" />
     </label>
   </div>
-  <ul id="headings-list">
-    <li>Loading...</li>
-  </ul>
+
+  <!-- Stats Section -->
+  <div id="stats-section">
+    <div class="stats-header">Stats Exporter</div>
+    <div class="stats-description">
+      Download your Medium story statistics as a CSV file. Data includes views, reads, and engagement metrics for all your stories.
+      <br><br>
+      <strong style="color: #d97706;">Important:</strong> Scroll down on the Stats page to load all posts before downloading. Medium only loads visible posts.
+    </div>
+    <button id="download-stats-btn" class="download-btn">Download CSV</button>
+    <div id="stats-status" class="stats-status"></div>
+    <div id="stats-info" class="stats-info"></div>
+  </div>
+
+  <!-- Stories Section -->
+  <div id="stories-section">
+    <div class="stats-header">Stories Data Exporter</div>
+    <div class="stats-description">
+      Download your Medium stories metadata (claps, comments, images, publications) to enrich your stats data.
+      <br><br>
+      <strong style="color: #d97706;">Important:</strong> Scroll down on the Stories page to load all posts before downloading. Medium only loads visible posts.
+    </div>
+    <button id="download-stories-btn" class="download-btn">Download Stories CSV</button>
+    <div id="stories-status" class="stats-status"></div>
+    <div id="stories-info" class="stats-info"></div>
+  </div>
+
+  <!-- Headings Section -->
+  <div id="headings-section">
+    <ul id="headings-list">
+      <li>Loading...</li>
+    </ul>
+  </div>
+
   <div class="footer">
     <a href="https://github.com/joegsuero/medium-writer-helper-extension/issues" target="_blank">Report issue or bug</a>
     <div class="dev-info">

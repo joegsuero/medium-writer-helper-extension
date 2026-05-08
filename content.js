@@ -6,16 +6,363 @@ function isMediumPage() {
                      document.querySelector('meta[name="twitter:app:name:iphone"][content="Medium"]') ||
                      document.querySelector('meta[property="og:site_name"][content="Medium"]') ||
                      document.querySelector('meta[name="twitter:site"][content="@Medium"]');
-  
+
   if (metaMedium) return true;
 
   // Check for specific Medium UI elements as fallback
-  const hasMetabar = document.querySelector('.metabar') || 
+  const hasMetabar = document.querySelector('.metabar') ||
                       document.querySelector('.js-metabar') ||
                       document.querySelector('[data-testid="headerMediumLogo"]') ||
                       document.querySelector('.site-main');
-  
+
   return !!hasMetabar;
+}
+
+function isStatsPage() {
+  // Check if URL matches Medium stats page
+  const url = window.location.href;
+  return url.includes('medium.com/me/stats') && !url.includes('/me/stats/post/');
+}
+
+function isStoriesPage() {
+  // Check if URL matches Medium stories page (published posts)
+  const url = window.location.href;
+  return url.includes('medium.com/me/stories') && url.includes('tab=posts-published');
+}
+
+function extractStoriesStats() {
+  const stories = [];
+
+  try {
+    // Get all table rows
+    const rows = document.querySelectorAll('table tbody tr');
+
+    rows.forEach(row => {
+      try {
+        // Stats link (contains post ID)
+        const statsLink = row.querySelector('td:first-child a[href*="/me/stats/post/"]');
+        if (!statsLink) return;
+
+        const href = statsLink.getAttribute('href') || '';
+        const postIdMatch = href.match(/\/me\/stats\/post\/([^/?]+)/);
+        const postId = postIdMatch ? postIdMatch[1] : '';
+
+        // Title
+        const titleEl = statsLink.querySelector('h2');
+        const title = titleEl ? titleEl.innerText.trim() : '';
+
+        // View story link (for post URL)
+        const viewLinks = row.querySelectorAll('td:first-child a');
+        let postUrl = '';
+        viewLinks.forEach(link => {
+          const linkHref = link.getAttribute('href') || '';
+          if (linkHref.includes('/@') || linkHref.includes('/p/')) {
+            postUrl = linkHref.startsWith('http') ? linkHref : `https://medium.com${linkHref}`;
+          }
+        });
+
+        // Fallback: construct URL from post ID
+        if (!postUrl && postId) {
+          postUrl = `https://medium.com/p/${postId}`;
+        }
+
+        // Stats columns
+        const presentationsEl = row.querySelector('td:nth-child(2) span');
+        const viewsEl = row.querySelector('td:nth-child(3) span');
+        const readsEl = row.querySelector('td:nth-child(4) span');
+
+        const presentations = parseNumber(presentationsEl ? presentationsEl.innerText : '0');
+        const views = parseNumber(viewsEl ? viewsEl.innerText : '0');
+        const reads = parseNumber(readsEl ? readsEl.innerText : '0');
+
+        // Parse additional info from row text
+        const rowText = row.innerText || '';
+        const publishedDate = parseDateFromText(rowText);
+        const readTime = parseReadTime(rowText);
+
+        if (postId) {
+          stories.push({
+            title,
+            postId,
+            postUrl,
+            presentations,
+            views,
+            reads,
+            publishedDate,
+            readTime
+          });
+        }
+      } catch (e) {
+        console.error('Error extracting row:', e);
+      }
+    });
+  } catch (e) {
+    console.error('Error extracting stats:', e);
+  }
+
+  return stories;
+}
+
+function parseNumber(text) {
+  if (!text) return 0;
+  text = text.trim().replace(/,/g, '');
+
+  const multipliers = { 'K': 1000, 'M': 1000000 };
+  const match = text.match(/^([\d.]+)([KM])?$/i);
+
+  if (match) {
+    const num = parseFloat(match[1]);
+    const mult = multipliers[match[2]?.toUpperCase()] || 1;
+    return Math.round(num * mult);
+  }
+
+  const num = parseInt(text, 10);
+  return isNaN(num) ? 0 : num;
+}
+
+function parseDateFromText(text) {
+  if (!text) return '';
+
+  // Match patterns like "Jan 15", "Mar 3, 2024", "Dec 25, 2023"
+  const dateMatch = text.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2})(?:,\s+(\d{4}))?/i);
+  if (dateMatch) {
+    const month = dateMatch[1];
+    const day = dateMatch[2];
+    const year = dateMatch[3] || new Date().getFullYear();
+    return `${month} ${day}, ${year}`;
+  }
+  return '';
+}
+
+function parseReadTime(text) {
+  if (!text) return '';
+
+  const readMatch = text.match(/(\d+)\s*min\s*read/);
+  if (readMatch) {
+    return `${readMatch[1]} min`;
+  }
+  return '';
+}
+
+function extractStoriesData() {
+  const stories = [];
+  const extractedIds = new Set(); // Track extracted IDs to avoid duplicates
+  const processedRows = new Set(); // Track processed row elements to avoid duplicates
+
+  try {
+    // Get all table rows with post data - try multiple strategies
+    // Strategy 1: Look for rows with specific Medium story row classes
+    let allStoryRows = [];
+    const classRows = document.querySelectorAll('table tbody tr.le, table tbody tr[class*="zn"]');
+    console.log(`Strategy 1 - Found ${classRows.length} story rows with class pattern`);
+    classRows.forEach(row => {
+      if (!processedRows.has(row)) {
+        allStoryRows.push(row);
+        processedRows.add(row);
+      }
+    });
+
+    // Strategy 2: Find all rows and filter those containing Medium post links
+    const allRows = document.querySelectorAll('table tbody tr');
+    console.log(`Strategy 2 - Found ${allRows.length} total table rows`);
+
+    // Filter rows that contain links with 12-char hex ID pattern
+    // This captures both /@username/... and /publication/... URLs
+    allRows.forEach(row => {
+      if (processedRows.has(row)) return; // Skip already processed
+
+      const allLinks = row.querySelectorAll('a[href]');
+      let hasPostLink = false;
+      let debugUrls = [];
+
+      for (const link of allLinks) {
+        const href = link.getAttribute('href') || '';
+        debugUrls.push(href.substring(0, 60));
+        // Match any URL ending with -12hexchars (Medium post pattern)
+        if (href.match(/-([a-f0-9]{12})(?:\?|$|\/)/)) {
+          hasPostLink = true;
+          break;
+        }
+      }
+
+      if (hasPostLink) {
+        allStoryRows.push(row);
+        processedRows.add(row);
+      } else if (allLinks.length > 0) {
+        // Debug: Log URLs that didn't match
+        console.log(`Row skipped - URLs found:`, debugUrls.slice(0, 3));
+      }
+    });
+    console.log(`Strategy 2 - Total unique rows with post links: ${allStoryRows.length}`);
+
+    // Strategy 3: Find any links on the page with post pattern that might not be in table rows
+    const allPageLinks = document.querySelectorAll('a[href*="-"][href*="?source=your_stories_outbox"]');
+    console.log(`Strategy 3 - Found ${allPageLinks.length} story outbox links`);
+
+    let rows = allStoryRows;
+
+    rows.forEach((row, index) => {
+      try {
+        // Try to find post ID from any link in the row
+        let postId = '';
+        let postLink = null;
+        const allLinks = row.querySelectorAll('a[href]');
+
+        for (const link of allLinks) {
+          const href = link.getAttribute('href') || '';
+          // Match pattern: /@username/title-id or /@username/title-id?query
+          // ID is 12 hex chars at the end of the slug
+          const idMatch = href.match(/-([a-f0-9]{12})(?:\?|$|\/)/);
+          if (idMatch && idMatch[1]) {
+            postId = idMatch[1];
+            postLink = link;
+            break;
+          }
+        }
+
+        if (!postId) {
+          console.log(`Row ${index}: No post ID found`);
+          return;
+        }
+
+        // Skip if already extracted (avoid duplicates from multiple links)
+        if (extractedIds.has(postId)) {
+          return;
+        }
+        extractedIds.add(postId);
+
+        // Get claps - look for SVG with aria-labelledby containing "clap" followed by a <p> with number
+        let claps = 0;
+        const allParagraphs = row.querySelectorAll('p');
+        for (const p of allParagraphs) {
+          const prevSvg = p.previousElementSibling;
+          if (prevSvg && prevSvg.tagName === 'svg') {
+            const ariaLabel = prevSvg.getAttribute('aria-labelledby') || '';
+            const descEl = prevSvg.querySelector('desc');
+            const descText = descEl ? descEl.textContent : '';
+
+            if (ariaLabel.includes('clap') || descText.includes('clap')) {
+              const num = parseInt(p.textContent?.trim() || '0', 10);
+              if (!isNaN(num)) {
+                claps = num;
+                break;
+              }
+            }
+          }
+        }
+
+        // Get comments - look for SVG with aria-labelledby containing "response" followed by a <p> with number
+        let comments = 0;
+        for (const p of allParagraphs) {
+          const prevSvg = p.previousElementSibling;
+          if (prevSvg && prevSvg.tagName === 'svg') {
+            const ariaLabel = prevSvg.getAttribute('aria-labelledby') || '';
+            const descEl = prevSvg.querySelector('desc');
+            const descText = descEl ? descEl.textContent : '';
+
+            if (ariaLabel.includes('response') || descText.includes('response')) {
+              const num = parseInt(p.textContent?.trim() || '0', 10);
+              if (!isNaN(num)) {
+                comments = num;
+                break;
+              }
+            }
+          }
+        }
+
+        // Get image URL - look for medium images in the row
+        const imgEl = row.querySelector('img[src*="miro.medium.com"]');
+        const imageUrl = imgEl ? imgEl.getAttribute('src') : '';
+
+        // Get publication - specifically check the "Publication" column (usually 2nd td, index 1)
+        let publication = '';
+        const cells = row.querySelectorAll('td');
+
+        // The Publication column is typically index 1 (after the title column)
+        // Check if there's a specific publication link or text in that cell
+        if (cells.length > 1) {
+          const pubCell = cells[1]; // Publication column
+
+          // Look for publication link first
+          const pubLink = pubCell.querySelector('a[href*="/publication/"], a[href*="/pub/"]');
+          if (pubLink) {
+            publication = pubLink.textContent?.trim() || '';
+          } else {
+            // Get all text content but exclude button/menu elements
+            // Clone the cell to manipulate without affecting DOM
+            const cellClone = pubCell.cloneNode(true);
+            // Remove button elements and their children from clone
+            const buttons = cellClone.querySelectorAll('button, svg, .speechify-ignore');
+            buttons.forEach(el => el.remove());
+
+            const cleanText = cellClone.textContent?.trim() || '';
+            // Only use if it's a reasonable publication name (not empty, not too long, not generic text)
+            if (cleanText &&
+                cleanText.length > 0 &&
+                cleanText.length < 100 &&
+                !cleanText.match(/^(Published|Draft|Scheduled|Toggle|\d+)$/i) &&
+                !cleanText.includes('actions menu')) {
+              publication = cleanText;
+            }
+          }
+        }
+
+        stories.push({
+          postId,
+          claps,
+          comments,
+          imageUrl,
+          publication
+        });
+
+        console.log(`Extracted: ${postId} - claps:${claps} comments:${comments} pub:"${publication}"`);
+      } catch (e) {
+        console.error(`Error extracting row ${index}:`, e);
+      }
+    });
+
+    console.log(`Total stories extracted: ${stories.length}`);
+
+    // Warn if extraction seems incomplete
+    if (allStoryRows.length > stories.length) {
+      console.warn(`Warning: Found ${allStoryRows.length} rows but only extracted ${stories.length} stories. Some rows may not have valid post IDs.`);
+    }
+
+    // Check for potential pagination (Medium loads more posts as you scroll)
+    // Count only links that have actual post IDs (12 hex chars pattern)
+    const allPostLinks = document.querySelectorAll('a[href*="?source=your_stories_outbox"]');
+    let validPostLinks = 0;
+    const seenPostIds = new Set();
+
+    allPostLinks.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      const idMatch = href.match(/-([a-f0-9]{12})(?:\?|$|\/)/);
+      if (idMatch && idMatch[1]) {
+        const postId = idMatch[1];
+        // Only count each unique post ID once (not both image and title links)
+        if (!seenPostIds.has(postId)) {
+          seenPostIds.add(postId);
+          validPostLinks++;
+        }
+      }
+    });
+
+    // Warn only if there's a significant mismatch (more than 3 posts difference)
+    if (validPostLinks > stories.length + 3) {
+      console.warn(
+        `%c⚠️ INCOMPLETE EXTRACTION: Found ${validPostLinks} posts in page but only extracted ${stories.length}.\n` +
+        `%c👉 SOLUTION: Scroll down on the Stories page to load more posts, then click Download again.`,
+        'color: #f59e0b; font-weight: bold; font-size: 14px;',
+        'color: #10b981; font-weight: bold;'
+      );
+    } else if (validPostLinks === stories.length) {
+      console.log(`✅ All ${stories.length} posts extracted successfully!`);
+    }
+  } catch (e) {
+    console.error('Error extracting stories data:', e);
+  }
+
+  return stories;
 }
 
 function applyDarkMode(enabled) {
@@ -349,10 +696,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "toggleDarkMode") {
     applyDarkMode(message.enabled);
   } else if (message.action === "checkMedium") {
-    sendResponse({ 
+    sendResponse({
       isMedium: isMediumPage(),
-      isEditor: !!(document.querySelector('.editable') || document.querySelector('[contenteditable="true"]') || window.location.href.includes('edit'))
+      isEditor: !!(document.querySelector('.editable') || document.querySelector('[contenteditable="true"]') || window.location.href.includes('edit')),
+      isStatsPage: isStatsPage(),
+      isStoriesPage: isStoriesPage()
     });
+  } else if (message.action === "extractStats") {
+    const stats = extractStoriesStats();
+    sendResponse({ stats });
+  } else if (message.action === "extractStoriesData") {
+    const stories = extractStoriesData();
+    sendResponse({ stories });
   }
   return true; // Keep channel open for async response
 });
